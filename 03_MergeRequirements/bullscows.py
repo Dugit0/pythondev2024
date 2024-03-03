@@ -55,8 +55,5 @@ if __name__ == "__main__":
     if args.length is not None:
         words = list(filter(lambda a: len(a) == args.length, words))
 
-    with open('tmp', 'w') as f_out:
-        print(*words, sep='\n', end='', file=f_out)
-    
     print(gameplay(ask, inform, words))
 
