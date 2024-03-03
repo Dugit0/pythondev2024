@@ -2,6 +2,7 @@ import random
 import urllib.request
 import os
 import argparse
+import cowsay
 
 
 def bullscows(guess: str, secret: str) -> (int, int):
@@ -22,22 +23,25 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
     ask_num = 0
     bulls = 0
     while bulls != len(secret):
-        bulls, cows = bullscows(ask("Введите слово: ", words), secret)
+        bulls, cows = bullscows(ask("Введите слово", words), secret)
         inform("Быки: {}, Коровы: {}", bulls, cows)
         ask_num += 1
     return ask_num
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
+    prompt = cowsay.cowsay(prompt, cow=random.choice(cowsay.list_cows()))
     if not valid:
-        return input(prompt)
+        print(prompt)
+        return input()
     while True:
-        if (inp := input(prompt)) in valid:
+        print(prompt)
+        if (inp := input()) in valid:
             return inp
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay.cowsay(format_string.format(bulls, cows), cow=random.choice(cowsay.list_cows())))
 
 
 if __name__ == "__main__":
