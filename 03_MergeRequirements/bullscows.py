@@ -1,6 +1,5 @@
 import random
 import urllib.request
-import os
 import argparse
 import cowsay
 
@@ -61,7 +60,6 @@ if __name__ == "__main__":
         words = list(filter(lambda a: len(a) == args.length, words))
 
     with open('fox.cow') as f_inp:
-        # print(f_inp.readline())
         my_cow = cowsay.read_dot_cow(f_inp)
     
     print(gameplay(ask, inform, words))
