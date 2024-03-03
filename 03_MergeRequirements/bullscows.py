@@ -30,7 +30,8 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    prompt = cowsay.cowsay(prompt, cow=random.choice(cowsay.list_cows()))
+    global my_cow
+    prompt = cowsay.cowsay(prompt, cowfile=my_cow)
     if not valid:
         print(prompt)
         return input()
@@ -59,5 +60,9 @@ if __name__ == "__main__":
     if args.length is not None:
         words = list(filter(lambda a: len(a) == args.length, words))
 
+    with open('fox.cow') as f_inp:
+        # print(f_inp.readline())
+        my_cow = cowsay.read_dot_cow(f_inp)
+    
     print(gameplay(ask, inform, words))
 
