@@ -17,19 +17,50 @@ class cow_cmd(cmd.Cmd):
         text = " ".join(shlex.split(arg))
         print(cowsay.make_bubble(text))
 
+    def _cow_saythink(self, arg, say=True):
+        args = shlex.split(arg)
+        params = {'message': None,
+                  'cow': 'default',
+                  'eyes': cowsay.Option.eyes,
+                  'tongue': cowsay.Option.tongue}
+        i = 0
+        while i < len(args):
+            match args[i]:
+                case 'message'|'cow'|'eyes'|'tongue' as par:
+                    i += 1
+                    try:
+                        params[par] = args[i]
+                    except IndexError:
+                        print('Index out of range')
+                        return 1
+                case _:
+                    print('Unexpected arg')
+                    return 1
+            i += 1
+        if params['message'] is None:
+            print('Message is required argument')
+            return 1
+        if params['cow'] not in cowsay.list_cows():
+            print('Unexpected cow')
+            return 1
+        if say:
+            return cowsay.cowsay(params['message'], cow=params['cow'], eyes=params['eyes'], tongue=params['tongue'])
+        else:
+            return cowsay.cowthink(params['message'], cow=params['cow'], eyes=params['eyes'], tongue=params['tongue'])
+
     def do_cowsay(self, arg):
         """
         Cow says...
         TODO Options
         """
-        pass
+        print(self._cow_saythink(arg, True))
 
     def do_cowthink(self, arg):
         """
         Cow think...
         TODO Options
         """
-        pass
+        print(self._cow_saythink(arg, False))
 
     def do_EOF(self, arg):
         return 1
