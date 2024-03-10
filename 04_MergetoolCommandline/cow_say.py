@@ -50,19 +50,28 @@ class cow_cmd(cmd.Cmd):
 
     def do_cowsay(self, arg):
         """
-        Cow says...
-        TODO Options
+        Cow says
+        Options:
+            message <message> - message that the cow says
+            cow <cow> - choose a cow picture to use; search in the list cows (see list_cows command)
+            eyes <eye_string> - set a eye string
+            tongue <tongue_string> - set a tongue string
         """
         print(self._cow_saythink(arg, True))
 
     def do_cowthink(self, arg):
         """
-        Cow think...
-        TODO Options
+        Cow think
+        Options:
+            message <message> - message that the cow says
+            cow <cow> - choose a cow picture to use; search in the list cows (see list_cows command)
+            eyes <eye_string> - set a eye string
+            tongue <tongue_string> - set a tongue string
         """
         print(self._cow_saythink(arg, False))
 
     def do_EOF(self, arg):
+        "Finish program"
         return 1
 
 
