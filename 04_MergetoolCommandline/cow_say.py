@@ -74,6 +74,31 @@ class cow_cmd(cmd.Cmd):
         "Finish program"
         return 1
 
+    def _compl_cow_saythink(self, text, line, begidx, endidx):
+        params = {'message', 'cow', 'eyes', 'tongue'}
+        words = (line[:endidx] + ".").split()
+        splited_line = shlex.split(line)
+        # print(text)
+        if len(shlex.split(line[:endidx] + '.')) % 2 == 0:
+            # New argument
+            return [c for c in (params - (set(splited_line) & params)) if c.startswith(text)]
+        else:
+            # Complete last argument
+            last_arg = shlex.split(line[:endidx] + '.')[-2]
+            match last_arg:
+                case 'cow':
+                    return [c for c in cowsay.list_cows() if c.startswith(text)]
+                case 'eyes':
+                    return [c for c in ['==', 'XX', '--', 'OO', '@@'] if c.startswith(text)]
+                case 'tongue':
+                    return [c for c in ['U ', 'UU', 'YY'] if c.startswith(text)]
+
+    def complete_cowsay(self, text, line, begidx, endidx):
+        return self._compl_cow_saythink(text, line, begidx, endidx)
+    
+    def complete_cowthink(self, text, line, begidx, endidx):
+        return self._compl_cow_saythink(text, line, begidx, endidx)
+
 
 if __name__ == "__main__":
     cow_cmd().cmdloop()
