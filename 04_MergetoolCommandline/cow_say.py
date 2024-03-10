@@ -77,7 +77,7 @@ class cow_cmd(cmd.Cmd):
         splited_line = shlex.split(line)
         if len(shlex.split(line[:endidx] + '.')) % 2 == 0:
             # New argument
-            return [c for c in (params - (set(splited_line) & params)) if c.startswith(text)]
+            return [c for c in (params - (set(splited_line[1::2]) & params)) if c.startswith(text)]
         else:
             # Complete last argument
             last_arg = shlex.split(line[:endidx] + '.')[-2]
